@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+.bg-dark {
+  z-index: 100;
+}
+
+#images {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 50px;
+  flex-flow: wrap;
+}
+
+.previous img, .next img {
+  width: 150px;
+  cursor: pointer;
+} 
+
+.current img {
+  width: 400px;
+}
+
+#images p {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#images p:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.desc {
+  padding: 50px;
+}
