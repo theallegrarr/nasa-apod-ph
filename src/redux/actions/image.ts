@@ -29,7 +29,7 @@ export const getImage = (date: any) => async (dispatch: any, getState: any) => {
     
     const shotsToday = axios.get(shotLink)
     const shotsPrevious = axios.get(shotLinkP)
-    const shotsTomorrow = axios.get(shotLinkT)
+    const shotsTomorrow = new Date(tomorrow).getTime() > (new Date()).getTime() ? axios.get(shotLink) : axios.get(shotLinkT)
 
     const apiResponse = new Date(tomorrow).getTime() > (new Date()).getTime() ? await Promise.all([shotsToday, shotsPrevious]) : await Promise.all([shotsToday, shotsPrevious, shotsTomorrow])
 

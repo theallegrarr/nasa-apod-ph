@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navbar, Nav, Alert } from 'react-bootstrap'
 import DatePicker from 'react-datepicker';
 import { connect } from 'react-redux'
@@ -6,11 +6,9 @@ import { connect } from 'react-redux'
 import { getImage } from "../redux/actions/image"
 
 function Header(props: any) {
-  const [startDate, setDate] = useState(new Date())
 
   const handleChange = (value: any) => {
-    if(value > new Date()) value = new Date()
-    setDate(new Date(value))
+    props.getImage(new Date(value))
   }
 
   useEffect(() => {
@@ -32,7 +30,7 @@ function Header(props: any) {
             </Nav.Link>
             <div className="mt-1 mb-1">
               <DatePicker
-                selected={startDate}
+                selected={props.image.date}
                 onChange={(e) => handleChange(e)}
               />
             </div>
