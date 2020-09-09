@@ -71,3 +71,14 @@
 .desc {
   padding: 50px;
 }
+
+.fave-page {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  align-items: flex-start;
+}
+
+.fave-page .preview {
+  width: 300px;
+}

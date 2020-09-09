@@ -34,3 +34,17 @@ export function faveExists(title: string) {
   }
   return false
 }
+
+export function getFaves() {
+  const existingFaves = JSON.parse(localStorage.getItem('faves') || '{}')
+
+  if(existingFaves[0]){
+    return existingFaves
+  }else{
+    return []
+  }
+}
+
+export function clearFaves() {
+  localStorage.setItem('faves', JSON.stringify([]))
+}
