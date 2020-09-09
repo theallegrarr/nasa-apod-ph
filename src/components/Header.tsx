@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Navbar, Nav, Alert } from 'react-bootstrap'
 import DatePicker from 'react-datepicker';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
 import { getImage } from "../redux/actions/image"
 
@@ -29,10 +30,12 @@ function Header(props: any) {
               <span role='img' aria-label='heart'>❤️</span> My Favorites
             </Nav.Link>
             <div className="mt-1 mb-1">
+              {props.location.pathname === '/' ?
               <DatePicker
                 selected={props.image.date}
                 onChange={(e) => handleChange(e)}
-              />
+              /> : null
+              }
             </div>
           </Nav>
         </Navbar.Collapse>
@@ -53,4 +56,4 @@ const mapDispatchToProps = {
   getImage
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header))
