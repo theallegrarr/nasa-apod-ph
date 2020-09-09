@@ -19,7 +19,8 @@ function ImageSet(props: any) {
       </div>
 
       <div className="current">
-      <img src={props.image.mainImage} alt="first"/>
+        <h3 className="mb-2">Photo of the Day</h3>
+        <img src={props.image.mainImage} alt="first"/>
       </div>
 
       <div className="next mt-2">
