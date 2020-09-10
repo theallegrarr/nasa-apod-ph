@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button } from 'react-bootstrap'
-import { getFaves, clearFaves, removeFromFaves } from '../util/faveHandler'
+import { connect } from 'react-redux'
 
-function Favorites(){
-  const [ faves, setFaves ] = useState([])
+import { addFave, loadFaves, removeFave, deleteAllFaves } from "../redux/actions/favorites"
+
+
+function Favorites(props: any){
   const [ selected, setSelected ] = useState({ link: '', title: '', description: '' })
 
   useEffect(() => {
-    setFaves(getFaves())
+    props.loadFaves()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return(
@@ -17,8 +20,7 @@ function Favorites(){
         variant="danger" 
         className='ml-3 mt-4 mb-2' 
         onClick={() => {
-          clearFaves()
-          setFaves(getFaves())
+          props.deleteAllFaves()
           setSelected({ link: '', title: '', description: '' })
         }}>
           Clear Favorites
@@ -38,8 +40,8 @@ function Favorites(){
       }
     </div>
     <div className='d-flex flex-row flex-wrap p-2' style={{ width: '98vw' }} >
-      {faves.length > 0 ?
-        faves.map((fave: any) => (
+      {props.faves.favorites.length > 0 ?
+        props.faves.favorites.map((fave: any) => (
           <Card key={fave.title} style={{ width: '18rem' }} className='ml-2 mt-2'>
             <Card.Img variant="top" src={fave.link}  style={{ maxHeight: '250px' }} />
             <Card.Body>
@@ -49,8 +51,7 @@ function Favorites(){
                 variant="danger" 
                 className='ml-2' 
                 onClick={() => {
-                  removeFromFaves(fave.title)
-                  setFaves(getFaves())
+                  props.removeFave(fave.title)
                 }}>
                   Remove
               </Button>
@@ -65,4 +66,13 @@ function Favorites(){
   )
 }
 
-export default Favorites
+const mapStateToProps = (state: any) => ({
+  image: state.image,
+  faves: state.faves
+})
+
+const mapDispatchToProps = {
+  addFave, loadFaves, removeFave, deleteAllFaves
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites)

@@ -65,3 +65,4 @@ export const getImage = (date: any) => async (dispatch: any, getState: any) => {
     })
   }
 }
+

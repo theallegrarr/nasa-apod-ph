@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Card, Button } from 'react-bootstrap'
 
 import { getImage } from '../redux/actions/image'
-import { faveExists, addToFaves, removeFromFaves } from '../util/faveHandler'
+import { addFave, loadFaves, removeFave } from "../redux/actions/favorites"
 
 function Description(props: any) {
   const { title, mainImage, description } = props.image
-  const [exists, setExists] = useState(faveExists(title))
+  const faveExists = props.faves.favorites.find((fave: any) => fave.title === title);
+
+  useEffect(() => {
+    props.loadFaves()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return(
     <div className="desc">
@@ -16,20 +21,18 @@ function Description(props: any) {
           <div className="flex-row d-flex">
             <Card.Title className="mt-2 mb-2">{title}</Card.Title>
             <Button 
-              variant={faveExists(title) ? "warning" : "secondary"}
+              variant={faveExists ? "warning" : "secondary"}
               className="ml-5"
               onClick={() => {
-                if(faveExists(title)){
-                  removeFromFaves(title)
-                  setExists(false)
+                if(faveExists) {
+                  props.removeFave(title)
                 } else {
-                  addToFaves(title, description, mainImage)
-                  setExists(true)
+                  props.addFave(title, description, mainImage)
                 }
               }}
             >
               <span role='img' aria-label='heart'>❤️</span> 
-              {exists ? 'Remove from Favorites' : 'Add To Favorites'}
+              {faveExists ? 'Remove from Favorites' : 'Add To Favorites'}
             </Button>
           </div>
         </Card.Header>
@@ -45,11 +48,12 @@ function Description(props: any) {
 
 
 const mapStateToProps = (state: any) => ({
-  image: state.image
+  image: state.image,
+  faves: state.faves
 })
 
 const mapDispatchToProps = {
-  getImage
+  getImage, addFave, loadFaves, removeFave
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Description)
